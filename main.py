@@ -10,11 +10,12 @@ from tqdm import tqdm
 from graph import generate
 
 if __name__ == '__main__':
-    if len(sys.argv) == 2:
-        root = sys.argv[1]
-    else:
-        print('Please ONLY include the directory path of the repository you want to generate a dependency graph for.')
+    if len(sys.argv) < 2:
+        print('Please include the directory path of the repository you want to generate a dependency graph for.')
         sys.exit(1)
+    root = sys.argv[1]
+
+    target = 'output.svg'
 
     imports = {}
     files = get_files(root=root)
@@ -26,4 +27,4 @@ if __name__ == '__main__':
             "targets": get_imports(file=file, root=root),
         }
 
-    generate(data=imports, level=2, target='graph.pdf')
+    generate(data=imports, level=1, target=target)

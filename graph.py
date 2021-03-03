@@ -1,4 +1,5 @@
 import igraph as ig
+import cairo
 from random import randrange, seed
 from constants import DISTINCT_COLOR_MAP
 from typing import Dict
