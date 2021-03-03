@@ -13,4 +13,4 @@ python3 /path/to/dependency-graph/main.py /path/to/repo/to/analyze /path/and/for
 - output types can be pdf, svg, png, ... .
 
 ### What does the generated dependency graph look like?
-
+![Similar to this](./output.svg)

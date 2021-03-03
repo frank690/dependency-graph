@@ -1,5 +1,4 @@
 import igraph as ig
-import cairo
 from random import randrange, seed
 from constants import DISTINCT_COLOR_MAP
 from typing import Dict
@@ -7,7 +6,7 @@ from typing import Dict
 seed(42)
 
 
-def generate(data: Dict, target: str = "graph.svg", layout_algorithm: str = "fr", level: int = 0):
+def generate(data: Dict, target: str, layout_algorithm: str = "fr", level: int = 0):
     """
     generate an igraph.Graph from the given imports (dict).
     :param data: dictionary of list of strings to generate nodes and edges from.
@@ -38,7 +37,7 @@ def generate(data: Dict, target: str = "graph.svg", layout_algorithm: str = "fr"
     layout = g.layout(layout_algorithm)
 
     plot_settings = {
-        "bbox": (3000, 3000),
+        "bbox": (1500, 1500),
         "layout": layout,
         "margin": 100
     }
