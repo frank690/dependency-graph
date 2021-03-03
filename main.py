@@ -14,6 +14,9 @@ if __name__ == '__main__':
 
     for file in files:
         name = from_directory_to_import_name(file=file)
-        imports[name] = get_imports(file=file)
+        imports[name] = {
+            "levels": get_levels(name=name),
+            "targets": get_imports(file=file),
+        }
 
-    generate(data=imports)
+    generate(data=imports, level=2)

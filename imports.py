@@ -89,11 +89,13 @@ def get_imports(file: Path) -> List[str]:
     return from_imports_to_import_names(imports=internal_imports)
 
 
-def get_levels(file: str) -> Dict:
+def get_levels(name: str) -> Dict:
     """
-
-    :param file:
-    :return:
+    extracts the module name levels from a given module name and returns them recursively joined as a dictionary.
+    e.g. some.module.with.sub -> {"0": "some", "1": "some.module", "2": "some.module.with", ... }
+    :param name: module name string to extract levels from.
+    :return: module levels recursively joined in a dictionary
     """
     compiler = re.compile(pattern=GET_LEVELS_PATTERN)
-    levels = compiler.findall(string=file)
+    levels = compiler.findall(string=name)
+    return {idx: ".".join(levels[:idx+1]) for idx in range(len(levels))}
