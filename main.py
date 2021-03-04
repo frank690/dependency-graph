@@ -1,3 +1,7 @@
+"""
+Main module to run the dependency-graph
+"""
+
 from imports import (
     get_files,
     from_directory_to_import_name,
@@ -5,26 +9,36 @@ from imports import (
     get_levels,
 )
 
-import sys
+from cli import parse
 from tqdm import tqdm
 from graph import generate
 
-if __name__ == '__main__':
-    if len(sys.argv) < 2:
-        print('Please include the directory path of the repository you want to generate a dependency graph for.')
-        sys.exit(1)
-    root = sys.argv[1]
 
-    target = 'output.svg'
-
+def run(repository: str, level: int, output: str):
+    """
+    Run the dependency-graph to analyze a given repository.
+    :param repository: repository to analyze.
+    :param level: module name level for coloring all nodes.
+    :param output: output file to create (with extension).
+    """
     imports = {}
-    files = get_files(root=root)
+    files = get_files(root=repository)
 
     for file in tqdm(files):
-        name = from_directory_to_import_name(file=file, root=root)
+        name = from_directory_to_import_name(file=file, root=repository)
         imports[name] = {
             "levels": get_levels(name=name),
-            "targets": get_imports(file=file, root=root),
+            "targets": get_imports(file=file, root=repository),
         }
 
-    generate(data=imports, level=1, target=target)
+    generate(data=imports, level=level, target=output)
+
+
+if __name__ == '__main__':
+    args = parse()
+
+    run(
+        repository=args.repository,
+        level=args.level,
+        output=args.output,
+    )

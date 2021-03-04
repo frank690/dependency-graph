@@ -1,9 +1,14 @@
+"""
+Module to import and clean the content of all the python files inside the target repository.
+"""
+
 from pathlib import Path
 from typing import List, Dict, Set
 
 import re
 from constants import (
     COMMENTS_PATTERN,
+    DOCSTRING_PATTERN,
     GET_IMPORT_NAME_PATTERN,
     GET_ALL_IMPORTS_PATTERN,
     GET_LEVELS_PATTERN,
@@ -62,6 +67,15 @@ def remove_comments(lines: str) -> str:
     return re.subn(pattern=COMMENTS_PATTERN, repl=r'\n', string=lines)[0]
 
 
+def remove_docstrings(lines: str) -> str:
+    """
+    removes all docstrings from a given string until the next line break.
+    :param lines: string to remove docstrings from
+    :return: string without docstrings
+    """
+    return re.subn(pattern=DOCSTRING_PATTERN, repl=r'\n', string=lines)[0]
+
+
 def get_all_imports(file: Path) -> List[str]:
     """
     read the content of a file and extract all import patterns.
@@ -71,6 +85,7 @@ def get_all_imports(file: Path) -> List[str]:
     matches = []
     lines = read_file(file=file)
     lines = remove_comments(lines=lines)
+    lines = remove_docstrings(lines=lines)
     for match in re.finditer(pattern=GET_ALL_IMPORTS_PATTERN, string=lines):
         matches.append(match.group())
     return matches

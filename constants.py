@@ -1,4 +1,9 @@
+"""
+This module contains all the constants that are used throughout the dependency-graphs functionality.
+"""
+
 COMMENTS_PATTERN = r'\#.*\s'
+DOCSTRING_PATTERN = r'"""[\s\S]*?"""'
 GET_ALL_IMPORTS_PATTERN = r'(from\s+[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*\s+){0,1}import\s+(([A-Za-z0-9_*]+)|(\((\s+[A-Za-z0-9_*]+(\,)?\s+)+\)))'
 GET_IMPORT_NAME_PATTERN = r'from\s+([A-Za-z0-9_.]+)\s+import'
 GET_LEVELS_PATTERN = r'[A-Za-z0-9_]+'

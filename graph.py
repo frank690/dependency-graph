@@ -1,3 +1,7 @@
+"""
+This module generates the network graph based on the python-igraph.
+"""
+
 import igraph as ig
 from random import randrange, seed
 from constants import DISTINCT_COLOR_MAP
