@@ -1,6 +1,12 @@
 Changelog
 =========
 
+Version 0.1.5
+-------------
+- Added start() to main.py to have an uniform entry point for everyone.
+- Modified setup.py as well as pre-commit-hooks to make it work properly.
+- Introduced isort and applied it to all the files as well.
+
 Version 0.1.4
 -------------
 - Added .pre-commit-hooks.yaml to use this repo as hook.

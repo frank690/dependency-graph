@@ -50,4 +50,9 @@ setuptools.setup(
         "Operating System :: Unix",
     ],
     python_requires=">=3.8",
+    entry_points={
+        "console_scripts": [
+            "dependency_graph=dependency_graph:start",
+        ]
+    },
 )

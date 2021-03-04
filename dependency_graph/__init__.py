@@ -3,7 +3,7 @@ Offers the entrance point to the world
 """
 
 __all__ = [
-    "run",
+    "start",
 ]
 
-from dependency_graph.main import run
+from dependency_graph.main import start

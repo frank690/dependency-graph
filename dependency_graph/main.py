@@ -3,7 +3,7 @@ Main module to run the dependency-graph
 """
 
 __all__ = [
-    "run",
+    "start",
 ]
 
 import sys
@@ -46,7 +46,10 @@ def run(repository: str, level: int, output: str):
         sys.exit(1)
 
 
-if __name__ == "__main__":
+def start():
+    """
+    Starting point for everyone
+    """
     args = parse()
 
     if args.repository is None:
@@ -60,3 +63,7 @@ if __name__ == "__main__":
         level=args.level,
         output=args.output,
     )
+
+
+if __name__ == "__main__":
+    start()
