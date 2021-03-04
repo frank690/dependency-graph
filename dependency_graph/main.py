@@ -27,17 +27,23 @@ def run(repository: str, level: int, output: str):
     :param level: module name level for coloring all nodes.
     :param output: output file to create (with extension).
     """
-    imports = {}
-    files = get_files(root=repository)
+    try:
+        imports = {}
+        files = get_files(root=repository)
 
-    for file in tqdm(files):
-        name = from_directory_to_import_name(file=file, root=repository)
-        imports[name] = {
-            "levels": get_levels(name=name),
-            "targets": get_imports(file=file, root=repository),
-        }
+        for file in tqdm(files):
+            name = from_directory_to_import_name(file=file, root=repository)
+            imports[name] = {
+                "levels": get_levels(name=name),
+                "targets": get_imports(file=file, root=repository),
+            }
 
-    generate(data=imports, level=level, target=output)
+        generate(data=imports, level=level, target=output)
+        print(f"Graph of {repository} was generated to {output}. Good bye.")
+        sys.exit(0)
+    except Exception as e:
+        print(e)
+        sys.exit(1)
 
 
 if __name__ == "__main__":
