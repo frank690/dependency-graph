@@ -4,5 +4,4 @@
   entry: dependency_graph
   language: python
   language_version: python3
-  minimum_pre_commit_version: 3.7
   require_serial: true
