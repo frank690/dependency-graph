@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Version 0.1.7
+-------------
+- Modified argumentparser in cli.py to ignore additional provided input. That is a much better way of doing it.
+
 Version 0.1.6
 -------------
 - Added args to argumentparser in cli.py to handle additionally provided input that is not needed.
