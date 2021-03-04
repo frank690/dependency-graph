@@ -31,5 +31,11 @@ def parse():
         default=0,
         help="Module name level that defines group (of nodes) coloring.",
     )
+    parser.add_argument(
+        "args",
+        type=str,
+        nargs="+",
+        help="Arguments that will not be used but were provided anyway for whatever reason.",
+    )
 
     return parser.parse_args()

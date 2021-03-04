@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.1.6
+-------------
+- Added args to argumentparser in cli.py to handle additionally provided input that is not needed.
+- Modified pre-commit hook yaml.
+
 Version 0.1.5
 -------------
 - Added start() to main.py to have an uniform entry point for everyone.
