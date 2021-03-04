@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.1.4
+-------------
+- Added .pre-commit-hooks.yaml to use this repo as hook.
+- Renamed .pre-commit-config.yml to .yaml.
+
 Version 0.1.3
 -------------
 - main.py now has proper exits and messages.
