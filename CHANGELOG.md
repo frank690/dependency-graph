@@ -4,6 +4,7 @@ Changelog
 Version 0.1.3
 -------------
 - main.py now has proper exits and messages.
+- Added repo tag
 
 Version 0.1.2
 -------------
