@@ -5,6 +5,7 @@ Version 0.1.3
 -------------
 - main.py now has proper exits and messages.
 - Added repo tag
+- fixed black version in pre-commit
 
 Version 0.1.2
 -------------
