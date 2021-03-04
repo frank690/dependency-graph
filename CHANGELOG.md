@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Version 0.1.1
+-------------
+- Moved all py files into subfolder
+- Introduced black and isort
+
 Version 0.1.0
 -------------
 - Added CHANGELOG.md

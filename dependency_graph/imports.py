@@ -2,20 +2,20 @@
 Module to import and clean the content of all the python files inside the target repository.
 """
 
-from pathlib import Path
-from typing import List, Dict, Set
-
 import re
-from constants import (
+from pathlib import Path
+from typing import Dict, List, Set
+
+from dependency_graph.constants import (
     COMMENTS_PATTERN,
     DOCSTRING_PATTERN,
-    GET_IMPORT_NAME_PATTERN,
     GET_ALL_IMPORTS_PATTERN,
+    GET_IMPORT_NAME_PATTERN,
     GET_LEVELS_PATTERN,
 )
 
 
-def get_files(root: str, file_type: str = 'py') -> Set[str]:
+def get_files(root: str, file_type: str = "py") -> Set[str]:
     """
     get all files (also in sub-directories) from given root path with a specific file_type.
     Return them as a list of strings.
@@ -23,7 +23,13 @@ def get_files(root: str, file_type: str = 'py') -> Set[str]:
     :param file_type: type of files to collect
     :return: list of strings containing the path of each file
     """
-    return set([file for file in Path(root).glob(f'**/*.{file_type}') if '/venv/' not in file.name])
+    return set(
+        [
+            file
+            for file in Path(root).glob(f"**/*.{file_type}")
+            if "/venv/" not in file.name
+        ]
+    )
 
 
 def from_directory_to_import_name(file: Path, root: str) -> str:
@@ -37,12 +43,12 @@ def from_directory_to_import_name(file: Path, root: str) -> str:
     """
     file = str(file.relative_to(root))
 
-    if file.endswith('__init__.py'):
+    if file.endswith("__init__.py"):
         file = file[:-11]
 
-    name = Path(root).stem + ''.join(['.' + f for f in file.split('/') if len(f) > 0])
+    name = Path(root).stem + "".join(["." + f for f in file.split("/") if len(f) > 0])
 
-    if name.endswith('.py'):
+    if name.endswith(".py"):
         return name[:-3]
     return name
 
@@ -53,7 +59,7 @@ def read_file(file: Path) -> str:
     :param file: file to read as pathlib Path
     :return: content of file as string
     """
-    with file.open('r') as f:
+    with file.open("r") as f:
         lines = f.read()
     return lines
 
@@ -64,7 +70,7 @@ def remove_comments(lines: str) -> str:
     :param lines: string to remove comments from
     :return: string without comments
     """
-    return re.subn(pattern=COMMENTS_PATTERN, repl=r'\n', string=lines)[0]
+    return re.subn(pattern=COMMENTS_PATTERN, repl=r"\n", string=lines)[0]
 
 
 def remove_docstrings(lines: str) -> str:
@@ -73,7 +79,7 @@ def remove_docstrings(lines: str) -> str:
     :param lines: string to remove docstrings from
     :return: string without docstrings
     """
-    return re.subn(pattern=DOCSTRING_PATTERN, repl=r'\n', string=lines)[0]
+    return re.subn(pattern=DOCSTRING_PATTERN, repl=r"\n", string=lines)[0]
 
 
 def get_all_imports(file: Path) -> List[str]:
@@ -111,7 +117,9 @@ def from_imports_to_import_names(imports: List[str]) -> List[str]:
     :return:
     """
     compiler = re.compile(pattern=GET_IMPORT_NAME_PATTERN)
-    return [match.group(1) for match in (compiler.match(imp) for imp in imports) if match]
+    return [
+        match.group(1) for match in (compiler.match(imp) for imp in imports) if match
+    ]
 
 
 def get_imports(file: Path, root: str) -> List[str]:
@@ -135,4 +143,4 @@ def get_levels(name: str) -> Dict:
     """
     compiler = re.compile(pattern=GET_LEVELS_PATTERN)
     levels = compiler.findall(string=name)
-    return {idx: ".".join(levels[:idx+1]) for idx in range(len(levels))}
+    return {idx: ".".join(levels[: idx + 1]) for idx in range(len(levels))}

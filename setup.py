@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import re
+
 import setuptools
 
 with open("CHANGELOG.md", "r") as fh:

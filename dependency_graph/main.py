@@ -4,16 +4,16 @@ Main module to run the dependency-graph
 
 import sys
 
-from imports import (
-    get_files,
+from tqdm import tqdm
+
+from dependency_graph.cli import parse
+from dependency_graph.graph import generate
+from dependency_graph.imports import (
     from_directory_to_import_name,
+    get_files,
     get_imports,
     get_levels,
 )
-
-from cli import parse
-from tqdm import tqdm
-from graph import generate
 
 
 def run(repository: str, level: int, output: str):
@@ -36,11 +36,13 @@ def run(repository: str, level: int, output: str):
     generate(data=imports, level=level, target=output)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     args = parse()
 
     if args.repository is None:
-        print("Please provide a directory path to the repository you would like to analyze.")
+        print(
+            "Please provide a directory path to the repository you would like to analyze."
+        )
         sys.exit(1)
 
     run(

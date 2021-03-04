@@ -2,10 +2,12 @@
 This module generates the network graph based on the python-igraph.
 """
 
-import igraph as ig
 from random import randrange, seed
-from constants import DISTINCT_COLOR_MAP
 from typing import Dict
+
+import igraph as ig
+
+from dependency_graph.constants import DISTINCT_COLOR_MAP
 
 seed(42)
 
@@ -26,13 +28,13 @@ def generate(data: Dict, target: str, layout_algorithm: str = "fr", level: int =
     g = ig.Graph(directed=True)
 
     node_settings = {
-        'size': 9,
-        'label_size': 4,
+        "size": 9,
+        "label_size": 4,
     }
     add_nodes(data=data, graph=g, **node_settings)
 
     edge_settings = {
-        'arrow_size': 0.5,
+        "arrow_size": 0.5,
     }
     add_edges(data=data, graph=g, **edge_settings)
 
@@ -40,11 +42,7 @@ def generate(data: Dict, target: str, layout_algorithm: str = "fr", level: int =
 
     layout = g.layout(layout_algorithm)
 
-    plot_settings = {
-        "bbox": (1500, 1500),
-        "layout": layout,
-        "margin": 100
-    }
+    plot_settings = {"bbox": (1500, 1500), "layout": layout, "margin": 100}
     ig.plot(g, target=target, **plot_settings)
 
 
@@ -77,11 +75,7 @@ def add_edges(data: Dict, graph: ig.Graph, **kwargs):
     """
     for source, content in data.items():
         for target in content["targets"]:
-            graph.add_edge(
-                source=source,
-                target=target,
-                **kwargs
-            )
+            graph.add_edge(source=source, target=target, **kwargs)
 
 
 def post_creation_nodes_settings(data: Dict, graph: ig.Graph, level: int = 0):
@@ -115,7 +109,8 @@ def set_level_color(data: Dict, graph: ig.Graph, level: int):
     """
     levels = list(set([info["levels"].get(level) for info in data.values()]))
     color_map = {
-        level: DISTINCT_COLOR_MAP[num] if num < len(DISTINCT_COLOR_MAP)
+        level: DISTINCT_COLOR_MAP[num]
+        if num < len(DISTINCT_COLOR_MAP)
         else random_color_generator()
         for num, level in enumerate(levels)
     }
@@ -129,7 +124,7 @@ def random_color_generator():
     creates and returns a random color.
     :return: string in hex format (e.g. #15ff0c)
     """
-    return '#%02X%02X%02X' % (
+    return "#%02X%02X%02X" % (
         randrange(256),
         randrange(256),
         randrange(256),
