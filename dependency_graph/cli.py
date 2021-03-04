@@ -6,7 +6,10 @@ from argparse import ArgumentParser
 
 
 def parse():
-    parser = ArgumentParser(description="dependency-graph")
+    parser = ArgumentParser(
+        description="dependency-graph that can be used to visualize the dependencies "
+        "within a given repository by drawing a network graph."
+    )
 
     parser.add_argument(
         "-r",

@@ -2,6 +2,10 @@
 Main module to run the dependency-graph
 """
 
+__all__ = [
+    "run",
+]
+
 import sys
 
 from tqdm import tqdm
