@@ -2,6 +2,8 @@
 Main module to run the dependency-graph
 """
 
+import sys
+
 from imports import (
     get_files,
     from_directory_to_import_name,
@@ -36,6 +38,10 @@ def run(repository: str, level: int, output: str):
 
 if __name__ == '__main__':
     args = parse()
+
+    if args.repository is None:
+        print("Please provide a directory path to the repository you would like to analyze.")
+        sys.exit(1)
 
     run(
         repository=args.repository,
