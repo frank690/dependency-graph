@@ -1,8 +1,9 @@
 - id: dependency-graph
   name: dependency-graph
   description: "dependency-graph: Gaining insight in your repositories"
-  entry: dependency_graph
+  entry: pre_commit_dependency_graph
   language: python
   language_version: python3
   require_serial: true
+  pass_filenames: false
   types: [python]

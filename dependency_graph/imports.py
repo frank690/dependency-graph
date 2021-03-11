@@ -4,7 +4,7 @@ Module to import and clean the content of all the python files inside the target
 
 import re
 from pathlib import Path
-from typing import Dict, List, Set
+from typing import Dict, List, Optional, Set
 
 from dependency_graph.constants import (
     COMMENTS_PATTERN,
@@ -15,21 +15,39 @@ from dependency_graph.constants import (
 )
 
 
-def get_files(root: str, file_type: str = "py") -> Set[str]:
+def get_files(
+    root: str, file_type: str = "py", exclude: Optional[List[str]] = None
+) -> Set[str]:
     """
     get all files (also in sub-directories) from given root path with a specific file_type.
     Return them as a list of strings.
     :param root: path to look for files
     :param file_type: type of files to collect
+    :param exclude: optional list of strings of (sub)folders to exclude from analysis.
     :return: list of strings containing the path of each file
     """
-    return set(
-        [
-            file
-            for file in Path(root).glob(f"**/*.{file_type}")
-            if "/venv/" not in file.name
-        ]
-    )
+    files = [
+        filter_file(root=root, file=file, exclude=exclude)
+        if exclude is not None
+        else file
+        for file in Path(root).glob(f"**/*.{file_type}")
+    ]
+    return set([file for file in files if file is not None])
+
+
+def filter_file(root: str, file: Path, exclude: List[str]) -> Optional[Path]:
+    """
+    filter given file by their path.
+    if one of the "forbidden folders" appears in the relative path of the current file, return None.
+    otherwise return the file as is.
+    :param root: root path to get relative path.
+    :param file: file to be filtered
+    :param exclude: list of strings of (sub)folders to exclude from analysis.
+    :return: the file itself or none
+    """
+    parts = file.relative_to(root).parts
+    if all(folder not in parts for folder in exclude):
+        return file
 
 
 def from_directory_to_import_name(file: Path, root: str) -> str:
@@ -122,16 +140,30 @@ def from_imports_to_import_names(imports: List[str]) -> List[str]:
     ]
 
 
-def get_imports(file: Path, root: str) -> List[str]:
+def filter_import_names(names: List[str], exclude: List[str]) -> List[str]:
+    """
+    filter the given import names by the list of (sub)folders / imports to exclude.
+    :param names: list of import names.
+    :param exclude: list of (sub)folders/imports to exclude.
+    :return: list of filtered import names.
+    """
+    return [name for name in names if not any([item in name for item in exclude])]
+
+
+def get_imports(
+    file: Path, root: str, exclude: Optional[List[str]] = None
+) -> List[str]:
     """
     get all imports from a file, remove external libraries and get the import name.
     :param file: path to file to extract import names from.
     :param root: main directory to look for imports
+    :param exclude: optional list of strings of (sub)folders to exclude from analysis.
     :return: list of import names from a specific file.
     """
     all_imports = get_all_imports(file=file)
     internal_imports = remove_external_imports(imports=all_imports, root=root)
-    return from_imports_to_import_names(imports=internal_imports)
+    internal_import_names = from_imports_to_import_names(imports=internal_imports)
+    return filter_import_names(names=internal_import_names, exclude=exclude)
 
 
 def get_levels(name: str) -> Dict:

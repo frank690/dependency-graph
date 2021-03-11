@@ -29,7 +29,7 @@ setuptools.setup(
     name="dependency-graph",
     version=changelog_version,
     author="frank690",
-    author_email="sffresch@gmx.de",
+    author_email="frank690@gmx.de",
     description="The fast module to analyze your repositories internal dependencies",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -44,15 +44,17 @@ setuptools.setup(
         "dev": dev_requirements,
     },
     classifiers=[
+        "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
         "Operating System :: Microsoft :: Windows ",
         "Operating System :: Unix",
     ],
-    python_requires=">=3.8",
+    python_requires=">=3.7",
     entry_points={
         "console_scripts": [
             "dependency_graph=dependency_graph:start",
+            "pre_commit_dependency_graph=dependency_graph:pre_commit_start",
         ]
     },
 )

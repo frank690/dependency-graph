@@ -31,6 +31,14 @@ def parse():
         default=0,
         help="Module name level that defines group (of nodes) coloring.",
     )
+    parser.add_argument(
+        "-e",
+        "--exclude",
+        type=str,
+        nargs="*",
+        help="Define list of (sub)folders that should be ignored during the analysis.",
+    )
 
     args, _ = parser.parse_known_args()
+
     return args
