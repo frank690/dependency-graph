@@ -24,7 +24,7 @@ dependency_graph -r /path/to/repo/to/analyze
 Add the following to your .pre-commit-config.yaml file inside your repository.
 ```shell
 - repo: https://github.com/frank690/dependency-graph
-  rev: 0.1.8
+  rev: 0.2.1
   hooks:
     - id: dependency-graph
       args: ["--repository", "./path/to/repository/", "--level", "2"]
