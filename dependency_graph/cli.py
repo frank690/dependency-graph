@@ -40,9 +40,9 @@ def parse():
     )
     parser.add_argument(
         "-i",
-        "--ignore-missing-nodes",
-        type=bool,
-        default=True,
+        "--ignore_missing_nodes",
+        default=False,
+        action="store_true",
         help="Flag if missing nodes should not raise an error but "
         "rather be artificially added with an rectangular node.",
     )

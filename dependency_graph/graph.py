@@ -17,7 +17,13 @@ from .constants import (
 seed(42)
 
 
-def generate(data: Dict, target: str, layout_algorithm: str = "fr", level: int = 0):
+def generate(
+    data: Dict,
+    target: str,
+    layout_algorithm: str = "fr",
+    level: int = 0,
+    ignore_missing_nodes: bool = True,
+):
     """
     generate an igraph.Graph from the given imports (dict).
     :param data: dictionary of list of strings to generate nodes and edges from.
@@ -29,11 +35,15 @@ def generate(data: Dict, target: str, layout_algorithm: str = "fr", level: int =
     this -> level 0
     this.is -> level 1
     this.is.my -> level 2 ...
+    :param ignore_missing_nodes: Flag if missing nodes should not raise an error but
+    rather be artificially added with an rectangular node.
     """
     g = ig.Graph(directed=True)
 
     add_nodes(data=data, graph=g, **NODE_SETTINGS)
-    add_edges(data=data, graph=g, **EDGE_SETTINGS)
+    add_edges(
+        data=data, graph=g, ignore_missing_nodes=ignore_missing_nodes, **EDGE_SETTINGS
+    )
 
     post_creation_nodes_settings(data=data, graph=g, level=level)
 
@@ -64,25 +74,37 @@ def add_node(name: str, graph: ig.Graph, **kwargs):
     graph.add_vertex(name=name, **kwargs)
 
 
-def add_edges(data: Dict, graph: ig.Graph, **kwargs):
+def add_edges(data: Dict, graph: ig.Graph, ignore_missing_nodes: bool, **kwargs):
     """
     loop over the given data and create a lot of edges inside the given graph
     :param data: dictionary containing information about every node and edge
     :param graph: instance of igraph.Graph to create edges in
+    :param ignore_missing_nodes: Flag if missing nodes should not raise an error but
+    rather be artificially added with an rectangular node.
     """
     for source, content in data.items():
         for target in content["targets"]:
-            add_edge(source=source, target=target, graph=graph, **kwargs)
+            add_edge(
+                source=source,
+                target=target,
+                graph=graph,
+                ignore_missing_nodes=ignore_missing_nodes,
+                **kwargs,
+            )
 
 
-def add_edge(source: str, target: str, graph: ig.Graph, **kwargs):
+def add_edge(
+    source: str, target: str, graph: ig.Graph, ignore_missing_nodes: bool, **kwargs
+):
     """
     loop over the given data and create a lot of edges inside the given graph
     :param source: name of source of edge to create
     :param target: name of target of edge to create
     :param graph: instance of igraph.Graph to create edge in
+    :param ignore_missing_nodes: Flag if missing nodes should not raise an error but
+    rather be artificially added with an rectangular node.
     """
-    if target not in graph.vs()["name"]:
+    if (target not in graph.vs()["name"]) and ignore_missing_nodes:
         graph.add_vertex(name=target, **MISSING_NODE_SETTINGS)
     graph.add_edge(source=source, target=target, **kwargs)
 

@@ -29,6 +29,7 @@ def run(
     output: str,
     git_add: bool = False,
     exclude: Optional[List[str]] = None,
+    ignore_missing_nodes: bool = True,
 ):
     """
     Run the dependency-graph to analyze a given repository.
@@ -38,6 +39,8 @@ def run(
     :param git_add: flag to indicate if resulting graph file should be automatically added to current commit
     (if file is already tracked).
     :param exclude: optional list of strings of (sub)folders to exclude from analysis.
+    :param ignore_missing_nodes: Flag if missing nodes should not raise an error but
+    rather be artificially added with an rectangular node.
     """
     try:
         imports = {}
@@ -50,7 +53,12 @@ def run(
                 "targets": get_imports(file=file, root=repository, exclude=exclude),
             }
 
-        generate(data=imports, level=level, target=output)
+        generate(
+            data=imports,
+            level=level,
+            target=output,
+            ignore_missing_nodes=ignore_missing_nodes,
+        )
         print(f"Graph of {repository} was generated to {output}. Good bye.")
 
         if git_add:
@@ -97,6 +105,7 @@ def start():
         level=args.level,
         output=args.output,
         exclude=args.exclude,
+        ignore_missing_nodes=args.ignore_missing_nodes,
         git_add=False,
     )
 
@@ -118,6 +127,7 @@ def pre_commit_start():
         level=args.level,
         output=args.output,
         exclude=args.exclude,
+        ignore_missing_nodes=args.ignore_missing_nodes,
         git_add=True,
     )
 
