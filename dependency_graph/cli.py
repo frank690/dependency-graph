@@ -38,6 +38,14 @@ def parse():
         nargs="*",
         help="Define list of (sub)folders that should be ignored during the analysis.",
     )
+    parser.add_argument(
+        "-i",
+        "--ignore-missing-nodes",
+        type=bool,
+        default=True,
+        help="Flag if missing nodes should not raise an error but "
+        "rather be artificially added with an rectangular node.",
+    )
 
     args, _ = parser.parse_known_args()
 

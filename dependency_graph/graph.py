@@ -7,7 +7,12 @@ from typing import Dict
 
 import igraph as ig
 
-from dependency_graph.constants import DISTINCT_COLOR_MAP
+from .constants import (
+    DISTINCT_COLOR_MAP,
+    EDGE_SETTINGS,
+    MISSING_NODE_SETTINGS,
+    NODE_SETTINGS,
+)
 
 seed(42)
 
@@ -27,16 +32,8 @@ def generate(data: Dict, target: str, layout_algorithm: str = "fr", level: int =
     """
     g = ig.Graph(directed=True)
 
-    node_settings = {
-        "size": 9,
-        "label_size": 4,
-    }
-    add_nodes(data=data, graph=g, **node_settings)
-
-    edge_settings = {
-        "arrow_size": 0.5,
-    }
-    add_edges(data=data, graph=g, **edge_settings)
+    add_nodes(data=data, graph=g, **NODE_SETTINGS)
+    add_edges(data=data, graph=g, **EDGE_SETTINGS)
 
     post_creation_nodes_settings(data=data, graph=g, level=level)
 
@@ -75,7 +72,19 @@ def add_edges(data: Dict, graph: ig.Graph, **kwargs):
     """
     for source, content in data.items():
         for target in content["targets"]:
-            graph.add_edge(source=source, target=target, **kwargs)
+            add_edge(source=source, target=target, graph=graph, **kwargs)
+
+
+def add_edge(source: str, target: str, graph: ig.Graph, **kwargs):
+    """
+    loop over the given data and create a lot of edges inside the given graph
+    :param source: name of source of edge to create
+    :param target: name of target of edge to create
+    :param graph: instance of igraph.Graph to create edge in
+    """
+    if target not in graph.vs()["name"]:
+        graph.add_vertex(name=target, **MISSING_NODE_SETTINGS)
+    graph.add_edge(source=source, target=target, **kwargs)
 
 
 def post_creation_nodes_settings(data: Dict, graph: ig.Graph, level: int = 0):

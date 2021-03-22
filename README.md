@@ -24,7 +24,7 @@ dependency_graph -r /path/to/repo/to/analyze
 Add the following to your .pre-commit-config.yaml file inside your repository.
 ```shell
 - repo: https://github.com/frank690/dependency-graph
-  rev: 0.2.1
+  rev: 0.2.2
   hooks:
     - id: dependency-graph
       args: ["--repository", "./path/to/repository/", "--level", "2"]
@@ -56,7 +56,8 @@ optional arguments:
                         Module name level that defines group (of nodes) coloring.
   -e [EXCLUDE [EXCLUDE ...]], --exclude [EXCLUDE [EXCLUDE ...]]
                         Define list of (sub)folders that should be ignored during the analysis.
-
+  -i IGNORE_MISSING_NODES, --ignore-missing-nodes IGNORE_MISSING_NODES
+                        Flag if missing nodes should not raise an error but rather be artificially added with an rectangular node.
 ```
 
 ### Notes

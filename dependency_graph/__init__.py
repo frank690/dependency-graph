@@ -7,4 +7,4 @@ __all__ = [
     "pre_commit_start",
 ]
 
-from dependency_graph.main import pre_commit_start, start
+from .main import pre_commit_start, start

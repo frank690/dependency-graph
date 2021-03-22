@@ -1,6 +1,10 @@
 Changelog
 =========
 
+Version 0.2.2
+-------------
+- Added ignore-missing-nodes (-i) argument. Missing nodes can now be ignored and automatically be added as rectangles in the generated graph.
+
 Version 0.2.1
 -------------
 - Exclude argument now also filters edges. previously it was possible that filters removed some nodes but not the edges pointing to them (from other nodes) resulting in ValueErrors on the python-igraph interface.

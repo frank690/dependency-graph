@@ -9,3 +9,4 @@
 - [ ] add option to inverse output color (having a dark graph)
 - [ ] group multiple modules into one package by drawing a square/something around them.
 - [ ] give init files another symbol 
+- [x] missing nodes are ignored or replaced by special node.

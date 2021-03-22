@@ -30,3 +30,18 @@ DISTINCT_COLOR_MAP = [
     "#808080",
     "#ffffff",
 ]
+
+NODE_SETTINGS = {
+    "size": 9,
+    "label_size": 4,
+}
+
+EDGE_SETTINGS = {
+    "arrow_size": 0.5,
+}
+
+MISSING_NODE_SETTINGS = {
+    "size": 9,
+    "label_size": 4,
+    "shape": "rectangle",
+}
